@@ -1,0 +1,26 @@
+version: '3.8'
+
+services:
+  openwebui:
+    build:
+      context: .
+      dockerfile: Dockerfile.encore
+    image: bryanwills/openwebui:encore
+    volumes:
+      - ./custom/frontend:/app/frontend/src
+      - ./custom/backend:/app/backend/app
+      - oneDrive:/data/onedrive
+    ports:
+      - "3000:8080"
+    environment:
+      - OLLAMA_BASE_URL=http://ollama:11434
+      - ONEDRIVE_PATH=/data/onedrive
+
+  ollama:
+    image: ollama/ollama
+    volumes:
+      - ollama_data:/root/.ollama
+
+volumes:
+  oneDrive:
+  ollama_data:

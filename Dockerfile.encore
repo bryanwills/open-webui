@@ -1,0 +1,14 @@
+# Build from your custom branch
+FROM ghcr.io/open-webui/open-webui:main AS base
+
+# Switch to your encore branch
+RUN git remote set-url origin https://github.com/bryanwills/openwebui.git && \
+    git fetch origin && \
+    git checkout encore
+
+# Add custom components
+COPY ./custom /app/custom
+
+# Rebuild with customizations
+RUN npm install --prefix /app/frontend && \
+    npm run build --prefix /app/frontend
